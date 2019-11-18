@@ -1,6 +1,11 @@
+# Just disables the warning, doesn't enable AVX/FMA
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import keras as kr
 import gzip
 import numpy as np
+import matplotlib.pyplot as plt
 # For encoding categorical variables.
 import sklearn.preprocessing as pre
 
@@ -10,7 +15,7 @@ with gzip.open('data/t10k-labels-idx1-ubyte.gz', 'rb') as f:
 with gzip.open('data/t10k-labels-idx1-ubyte.gz', 'rb') as f:
     test_lbl = f.read()
 
-with gzip.open('data/t10k-labels-idx1-ubyte.gz', 'rb') as f:
+with gzip.open('data/t10k-images-idx3-ubyte.gz', 'rb') as f:
     test_img = f.read()
 
 with gzip.open('data/train-images-idx3-ubyte.gz', 'rb') as f:
