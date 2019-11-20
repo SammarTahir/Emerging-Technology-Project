@@ -47,8 +47,6 @@ encoder = pre.LabelBinarizer()
 encoder.fit(train_lbl)
 outputs = encoder.transform(train_lbl)
 
-print(train_lbl[0], outputs[0])
-
 for i in range(10):
     print(i, encoder.transform([i]))
 
@@ -62,3 +60,5 @@ test_lbl = np.array(list(test_lbl[ 8:])).astype(np.uint8)
 model.predict(test_img[5:6])
 
 plt.imshow(test_img[5].reshape(28, 28), cmap='gray')
+
+plt.show()
