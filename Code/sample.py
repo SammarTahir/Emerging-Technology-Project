@@ -18,3 +18,4 @@ import matplotlib.pyplot as plt
 
 plt.imshow(image, cmap='gray')
 
+plt.show()
