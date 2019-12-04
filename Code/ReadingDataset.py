@@ -1,17 +1,11 @@
-# Just disables the warning, doesn't enable AVX/FMA
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
+# This is useed to make a nueral network
 import keras as kr
-import gzip
+# This is used to plot data
 import numpy as np
 import matplotlib.pyplot as plt
-# For encoding categorical variables.
-import sklearn.preprocessing as pre
 
-with gzip.open('data/t10k-labels-idx1-ubyte.gz', 'rb') as f:
-    labels = f.read()
-
+# Importing files from the MNIST website
+# The data from these files will be used to make the nerual network
 with gzip.open('data/t10k-labels-idx1-ubyte.gz', 'rb') as f:
     test_lbl = f.read()
 
