@@ -3,6 +3,8 @@ import keras as kr
 # This is used to plot data
 import numpy as np
 import matplotlib.pyplot as plt
+# This is used to upzip the files
+import gzip
 
 # Importing files from the MNIST website
 # The data from these files will be used to make the nerual network
@@ -18,41 +20,89 @@ with gzip.open('data/train-images-idx3-ubyte.gz', 'rb') as f:
 with gzip.open('data/train-labels-idx1-ubyte.gz', 'rb') as f:
     train_lbl = f.read()
 
+# Laoding in the files
+(train_img, train_lbl), (test_img, test_lbl) = kr.datasets.mnist.load_data()
 
-int.from_bytes(labels[8:9], byteorder="big")
 
-# Start a neural network, building it by layers.
+# Scaling the data 
+train_img = train_img.reshape(60000, 784)
+test_img = test_img.reshape(10000, 784)
+
+# Dividing the img by 225 for scaling
+train_img = train_img.astype('float32')
+test_img = test_img.astype('float32')
+train_img = train_img/255
+test_img = test_img/255 
+
+train_lbl = kr.utils.np_utils.to_categorical(train_lbl, 10)
+test_lbl = kr.utils.np_utils.to_categorical(test_lbl, 10)
+
+# This is a for loop for the images
+for i in range(50):
+    plt.subplot(1,50,i+1)
+    
+    # This shows the image
+    plt.imshow(train_img[i].reshape(28,28), cmap='gray', interpolation='nearest')
+    plt.xticks([])
+    plt.yticks([])
+    # plt.show()
+
+# This is creating the neural netwrok by using the models import from keras
+print("Creating model")
 model = kr.models.Sequential()
 
-# Add a hidden layer with 1000 neurons and an input layer with 784.
-model.add(kr.layers.Dense(units=600, activation='linear', input_dim=784))
-model.add(kr.layers.Dense(units=400, activation='relu'))
-# Add a three neuron output layer.
-model.add(kr.layers.Dense(units=10, activation='softmax'))
+print("Sequential model created")
+print("Adding layers to model...")
 
-# Build the graph.
+# Start a neural network, building it by layers
+# Use input_shape=(28,28) for unflattened data
+model.add(kr.layers.Dense(392, activation='relu', input_shape=(784,)))
+model.add(kr.layers.Dense(392, activation='relu'))
+
+# This is to stop overfilling 
+model.add(kr.layers.Dropout(0.2))
+
+# This is the final layer and finishes the nueral network 
+# ***For notebook -> The Adam optimization algorithm is an extension to stochastic gradient descent 
+# that has recently seen broader adoption for deep learning applications in computer vision and natural language processing***
+model.add(kr.layers.Dense(10, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-train_img = ~np.array(list(train_img[16:])).reshape(60000, 28, 28).astype(np.uint8) / 255.0
-train_lbl = np.array(list(train_lbl[8:])).astype(np.uint8)
-inputs = train_img.reshape(60000, 784)
+# This is training the nueral network 
+# ***For notebook -> epoches meeans the amount of times the test is carried out*** 
+history = model.fit(train_img, train_lbl, batch_size=50, epochs=5, verbose=1, validation_data=(test_img, test_lbl))
 
-encoder = pre.LabelBinarizer()
-encoder.fit(train_lbl)
-outputs = encoder.transform(train_lbl)
+# This shows the accuracy of the nueral network
+score = model.evaluate(train_img, train_lbl, verbose=0)
+print('Test cross-entropy loss: %0.9f' % score[0])
+print('Test accuracy: %0.9f' % score[1])
 
-for i in range(10):
-    print(i, encoder.transform([i]))
-
-model.fit(inputs, outputs, epochs=2, batch_size=100)
-    
-test_img = ~np.array(list(test_img[16:])).reshape(10000, 784).astype(np.uint8) / 255.0
-test_lbl = np.array(list(test_lbl[ 8:])).astype(np.uint8)
-
-(encoder.inverse_transform(model.predict(test_img)) == test_lbl).sum()
-
-model.predict(test_img[5:6])
-
-plt.imshow(test_img[5].reshape(28, 28), cmap='gray')
-
+# This is plotting the loss
+plt.figure(1, figsize=(14,5))
+plt.subplot(1,2,1)
+plt.plot(history.history['loss'], label='train')
+plt.plot(history.history['val_loss'], label='valid')
+plt.xlabel('Epoch')
+plt.ylabel('Cross-Entropy Loss')
+plt.legend()
 plt.show()
+
+# This is plotting the accuracy
+plt.subplot(1,2,2)
+plt.plot(history.history['accuracy'], label='train')
+plt.plot(history.history['val_accuracy'], label='valid')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.show()
+
+# This loads and saves the network
+model.save('digit_reader.h5')
+loadedModel = kr.models.load_model('digit_reader.h5')
+
+# ***For Notebook -> Add this for predicted number***
+plt.imshow(test_img[77].reshape(28, 28), cmap="gray")
+plt.show()
+
+# This is given a test image and seen if it is able to load the correct number
+print(loadedModel.predict(test_img[77:78]), "\nCaluclated Number: ", np.argmax(loadedModel.predict(test_img[77:78])))
