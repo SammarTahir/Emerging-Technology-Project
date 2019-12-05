@@ -1,4 +1,4 @@
-# This is useed to make a nueral network
+# This is used to make a nueral network
 import keras as kr
 # This is used to plot data
 import numpy as np
