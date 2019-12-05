@@ -4,6 +4,7 @@ import keras as kr
 import numpy as np
 import matplotlib.pyplot as plt
 # This is used to upzip the files
+# Adapted from: https://docs.python.org/3/library/gzip.html
 import gzip
 
 # Importing files from the MNIST website
