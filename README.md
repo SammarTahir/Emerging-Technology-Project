@@ -1,16 +1,8 @@
 # Emerging-Technology-Project
+###### Written by Sammar Tahir
 
-Update this with howe to run application
-
-Add more to notebook
-
+In this repository you will a Nerual Network that is trained to predict what number is present on a image passed in from a front end web appliction
 
 ## Running
 
 To run the web application, type the following:
-
-```bash
-$ env FLASK_APP=random-wa.py flask run
-```
-
-### G00347526 <br> Sammar Tahir
