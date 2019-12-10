@@ -1,4 +1,4 @@
-# This is used to make a nueral network
+# This is used to make a nerual network
 import keras as kr
 # This is used to plot data
 import numpy as np
@@ -46,34 +46,32 @@ for i in range(50):
     plt.imshow(train_img[i].reshape(28,28), cmap='gray', interpolation='nearest')
     plt.xticks([])
     plt.yticks([])
-    # plt.show()
+plt.show()
 
 # This is creating the neural netwrok by using the models import from keras
-print("Creating model")
 model = kr.models.Sequential()
-
-print("Sequential model created")
-print("Adding layers to model...")
 
 # Start a neural network, building it by layers
 # Use input_shape=(28,28) for unflattened data
 model.add(kr.layers.Dense(392, activation='relu', input_shape=(784,)))
 model.add(kr.layers.Dense(392, activation='relu'))
+model.add(kr.layers.Dense(392, activation='relu'))
+model.add(kr.layers.Dense(392, activation='relu'))
 
 # This is to stop overfilling 
 model.add(kr.layers.Dropout(0.2))
 
-# This is the final layer and finishes the nueral network 
+# This is the final layer and finishes the nerual network 
 # ***For notebook -> The Adam optimization algorithm is an extension to stochastic gradient descent 
 # that has recently seen broader adoption for deep learning applications in computer vision and natural language processing***
 model.add(kr.layers.Dense(10, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-# This is training the nueral network 
+# This is training the nerual network 
 # ***For notebook -> epoches meeans the amount of times the test is carried out*** 
-history = model.fit(train_img, train_lbl, batch_size=50, epochs=50, verbose=1, validation_data=(test_img, test_lbl))
+history = model.fit(train_img, train_lbl, batch_size=50, epochs=5, verbose=1, validation_data=(test_img, test_lbl))
 
-# This shows the accuracy of the nueral network
+# This shows the accuracy of the nerual network
 score = model.evaluate(train_img, train_lbl, verbose=0)
 print('Test cross-entropy loss: %0.9f' % score[0])
 print('Test accuracy: %0.9f' % score[1])
@@ -86,7 +84,6 @@ plt.plot(history.history['val_loss'], label='valid')
 plt.xlabel('Epoch')
 plt.ylabel('Cross-Entropy Loss')
 plt.legend()
-plt.show()
 
 # This is plotting the accuracy
 plt.subplot(1,2,2)
@@ -102,8 +99,8 @@ model.save('nerualNetwork.h5')
 loadedModel = kr.models.load_model('nerualNetwork.h5')
 
 # ***For Notebook -> Add this for predicted number***
-plt.imshow(test_img[77].reshape(28, 28), cmap="gray")
+plt.imshow(test_img[57].reshape(28, 28), cmap="gray")
 plt.show()
 
 # This is given a test image and seen if it is able to load the correct number
-print(loadedModel.predict(test_img[77:78]), "\n Caluclated Number: ", np.argmax(loadedModel.predict(test_img[77:78])))
+print(loadedModel.predict(test_img[57:58]), "\n Caluclated Number: ", np.argmax(loadedModel.predict(test_img[57:58])))
