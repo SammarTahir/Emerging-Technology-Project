@@ -1,0 +1,60 @@
+<!-- Sourced from: https://github.com/ianmcloughlin/random-web-app/blob/master/static/index.html -->
+<!doctype html>
+<!-- Adapted from: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Random numbers</title>
+  </head>
+
+  <body>
+    <div id="buttonDiv">
+        <button id="predictBtn" onclick="predict()">Predict</button>
+        <button id="restartBtn" onclick="erase()">Restart</button>
+    </div>
+    <div id="canvasDiv">
+        <canvas id="myCanvas"></canvas>
+    </div>
+    <div id="prediction">
+        <p>Predicted Number:</p>
+        <p id="predictedNumber"></p>
+    </div>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>Generate random numbers</h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <form>
+            <div class="form-group">
+              <label for="noofnos">Number of numbers</label>
+              <input type="number" class="form-control" id="noofnos" aria-describedby="noofonoshelp" value="5" min="1" max="100">
+            </div>
+            <div class="form-group">
+              <button type="submit" id="submitButton" class="btn btn-primary">Generate</button>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" id="randomNumbers" rows="8" placeholder="Click generate to generate numbers here." readonly></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Script to generate random numbers in the form. -->
+    <script src="/static/generate.js"></script>
+  </body>
+</html>
