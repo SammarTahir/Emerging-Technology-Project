@@ -5,19 +5,19 @@
 # For creating the web application.
 import flask as fl
 import numpy as np
+import tensorflow as tf
 import base64
 # Solution for cv2 https://stackoverflow.com/questions/19876079/cannot-find-module-cv2-when-using-opencv
 import cv2
 from PIL import Image, ImageOps
 
 # Used to load the neural network
-from keras.models import load_model
 
 # Create the web application.
-app = fl.Flask(__name__)
+app = fl.Flask(__name__, template_folder='static')
 
 # Loading the nueral network in the code folder
-model = load_model('Code/digit_reader.h5')
+model = tf.keras.load_model('../digit_reader.h5')
 
 # Used for resizing the images from the MNIST
 height = 28
@@ -70,7 +70,6 @@ def convertImage():
     # returns the predicted number to be passed to the .js file
     return predictedNumber
 
+
 #Main method
-if __name__ == "__main__":  
-    #Run the app.
-    app.run()
+app.run()

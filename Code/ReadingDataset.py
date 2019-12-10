@@ -98,8 +98,8 @@ plt.legend()
 plt.show()
 
 # This loads and saves the network
-model.save('digit_reader.h5')
-loadedModel = kr.models.load_model('digit_reader.h5')
+model.save('nerualNetwork.h5')
+loadedModel = kr.models.load_model('nerualNet.h5')
 
 # ***For Notebook -> Add this for predicted number***
 plt.imshow(test_img[77].reshape(28, 28), cmap="gray")
