@@ -6,6 +6,7 @@
 import flask as fl
 import numpy as np
 import base64
+# Solution for cv2 https://stackoverflow.com/questions/19876079/cannot-find-module-cv2-when-using-opencv
 import cv2
 from PIL import Image, ImageOps
 
