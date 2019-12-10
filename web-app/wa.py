@@ -4,8 +4,12 @@
 
 # For creating the web application.
 import flask as fl
+import keras as kr
 import numpy as np
 import tensorflow as tf
+# Sourced from: https://stackoverflow.com/questions/47115946/tensor-is-not-an-element-of-this-graph
+# Solution for tensor is not an element of this graph
+graph = tf.get_default_graph() 
 import base64
 # Solution for cv2 https://stackoverflow.com/questions/19876079/cannot-find-module-cv2-when-using-opencv
 import cv2
@@ -17,7 +21,10 @@ from PIL import Image, ImageOps
 app = fl.Flask(__name__, template_folder='static')
 
 # Loading the nueral network in the code folder
-model = tf.keras.load_model('../digit_reader.h5')
+model = kr.models.load_model('nerualNetwork.h5')
+# Sourced from: https://stackoverflow.com/questions/53391618/tensor-tensorpredictions-softmax0-shape-1000-dtype-float32-is-not-an
+model._make_predict_function() 
+print('model loaded') # just to keep track in server
 
 # Used for resizing the images from the MNIST
 height = 28
@@ -53,7 +60,7 @@ def convertImage():
     newImage = cv2.imread("newImage.png")
 
     # Soruced from: https://stackoverflow.com/questions/12201577/how-can-i-convert-an-rgb-image-into-grayscale-in-python
-    # Converting the new image to grayscale, reshaping and adding to nparray
+    # Reshaping and adding to nparray
     grayScaleImage = cv2.cvtColor(newImage, cv2.COLOR_BGR2GRAY)
     # Converting to float32 and dividing by 255 for attempted normilization(Does not really impact accuracy of web app)
     grayScaleArray = np.array(grayScaleImage, dtype=np.float32).reshape(1, 784)

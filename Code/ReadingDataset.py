@@ -71,7 +71,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 
 # This is training the nueral network 
 # ***For notebook -> epoches meeans the amount of times the test is carried out*** 
-history = model.fit(train_img, train_lbl, batch_size=50, epochs=5, verbose=1, validation_data=(test_img, test_lbl))
+history = model.fit(train_img, train_lbl, batch_size=50, epochs=50, verbose=1, validation_data=(test_img, test_lbl))
 
 # This shows the accuracy of the nueral network
 score = model.evaluate(train_img, train_lbl, verbose=0)
@@ -90,8 +90,8 @@ plt.show()
 
 # This is plotting the accuracy
 plt.subplot(1,2,2)
-plt.plot(history.history['accuracy'], label='train')
-plt.plot(history.history['val_accuracy'], label='valid')
+plt.plot(history.history['acc'], label='train')
+plt.plot(history.history['val_acc'], label='valid')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
@@ -99,11 +99,11 @@ plt.show()
 
 # This loads and saves the network
 model.save('nerualNetwork.h5')
-loadedModel = kr.models.load_model('nerualNet.h5')
+loadedModel = kr.models.load_model('nerualNetwork.h5')
 
 # ***For Notebook -> Add this for predicted number***
 plt.imshow(test_img[77].reshape(28, 28), cmap="gray")
 plt.show()
 
 # This is given a test image and seen if it is able to load the correct number
-print(loadedModel.predict(test_img[77:78]), "\nCaluclated Number: ", np.argmax(loadedModel.predict(test_img[77:78])))
+print(loadedModel.predict(test_img[77:78]), "\n Caluclated Number: ", np.argmax(loadedModel.predict(test_img[77:78])))
