@@ -15,12 +15,10 @@ import base64
 import cv2
 from PIL import Image, ImageOps
 
-# Used to load the neural network
-
 # Create the web application.
 app = fl.Flask(__name__, template_folder='static')
 
-# Loading the nueral network in the code folder
+# Loading the nueral network
 model = kr.models.load_model('nerualNetwork.h5')
 # Sourced from: https://stackoverflow.com/questions/53391618/tensor-tensorpredictions-softmax0-shape-1000-dtype-float32-is-not-an
 model._make_predict_function() 

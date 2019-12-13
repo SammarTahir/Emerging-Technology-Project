@@ -7,54 +7,49 @@
   <head>
     <meta charset="utf-8">
     <title>
-      Hand-Written Digit Reader
+      Emerging-Technologies
     </title>
+    <!-- CSS for the webpage -->
     <style type="text/css">
-    #canvasDiv {
-    margin: 0px auto;
-    text-align: center;
-    width: 250px;
-    height: 250px;
-    border: 5px solid blue;
-    background-color: black;
-  }
-  
-  #buttonDiv {
-    margin: 20px auto;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  #predictBtn {
-    background-color: rgba(3, 151, 3, 0.904);
-    color: black;
-    padding: 20px 20px;
-    text-align: center;
-    font-size: 20px;
-    border-radius: 50%;
-  }
-  
-  #restartBtn {
-    background-color: gold;
-    color: black;
-    padding: 20px 20px;
-    text-align: center;
-    font-size: 20px;
-    border-radius: 50%;
-  }
-  
-  #prediction {
-    text-align: center;
-  }
-  </style>
+      #canvasDiv {
+        margin: 0px auto;
+        text-align: center;
+        width: 250px;
+        height: 250px;
+        border: 5px solid red;
+        background-color: black;
+      }
+    
+      #buttonDiv {
+        margin: 20px auto;
+        text-align: center;
+        padding: 20px;
+      }
+    
+      #predictBtn {
+        background-color: rgb(255, 255, 255);
+        color: black;
+        padding: 20px 20px;
+        text-align: center;
+        font-size: 20px;
+      }
+    
+      #restartBtn {
+        background-color: rgb(255, 255, 255);
+        color: black;
+        padding: 20px 20px;
+        text-align: center;
+        font-size: 20px;
+      }
+    
+      #prediction {
+        text-align: center;
+      }
+    </style>
   </head>
 
-  <body>
-    <div id="buttonDiv">
-      <button id="predictBtn" onclick="predict()">Predict</button>
-      <button id="restartBtn" onclick="erase()">Restart</button>
-    </div>
-    
+  <!-- Main body of the webpage -->
+  <body> 
     <div id="canvasDiv">
         <canvas id="myCanvas"></canvas>
     </div>
@@ -64,91 +59,80 @@
         <p id="predictedNumber"></p>
     </div>
 
-    <!--Calling the Jquery script from an online source-->
-    <script src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script > // Creating the canvas element and placing it in the myCanvas slot
-        var canvas = document.getElementById('myCanvas');
-        var ctx = canvas.getContext('2d');
-       
-        var painting = document.getElementById('canvasDiv');
-        var paint_style = getComputedStyle(painting);
-        canvas.width = parseInt(paint_style.getPropertyValue('width'));
-        canvas.height = parseInt(paint_style.getPropertyValue('height'));
-       
-        var mouse = { x: 0, y: 0 };
-       
-        // adding event listener for the mouse movement
-        canvas.addEventListener('mousemove', function (e) {
-            // Adding offset to the mouse so it's drawing position is correct
-            mouse.x = e.pageX - this.offsetLeft;
-            mouse.y = e.pageY - this.offsetTop;
-        }, false);
-       
-        //width of the line
-        // image appears closer to typical mnist data image ith line size at 15
-        //  May make predicitions more accurate
-        ctx.lineWidth = 15;
-       
-        // specifying how you want the image to be drawn eg "round" will have no edges
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-       
-        // colour of the line
-        // Set white to match mnist dataset
-        // White color improves prediction rate
-        ctx.strokeStyle = '#FFFFFF';
-       
-        // adding event listener for when the mouse is clicked
-        canvas.addEventListener('mousedown', function (e) {
-            //begin the path path for the drawing
-            ctx.beginPath();
-            // draw the line following the mouse position
-            ctx.moveTo(mouse.x, mouse.y);
-            canvas.addEventListener('mousemove', onPaint, false);
-        }, false);
-       
-        // Adding event lstener for when the mouse is no longer clicked
-        canvas.addEventListener('mouseup', function () {
-            canvas.removeEventListener('mousemove', onPaint, false);
-        }, false);
-       
-        // function to draw the line for the canvas
-        var onPaint = function () {
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
-        };
-       
-        // function to clear the canvas completely
-        // Attched to the clearButton
-        // Also now clears guessed number
-        function erase() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            $('#predictedNumber').text('');
-        }
-       
-        // function to save the image created in the canvas
-        function predict() {
-            //directed to take the image 
-            var canvas = document.getElementById("myCanvas");
-            var dataURL = canvas.toDataURL();
-            console.log(dataURL);
-       
-            // Using Ajax post method for the image
-            $.ajax({
-                type: 'POST',
-                url: '/image',
-                data: {
-                    imgBase64: dataURL
-                }
-            }).done(function (data) {
-                // Logging to the console to confirm 
-                console.log('SENT');
-                // sending predicted number to the console
-                console.log(data);
-                $("#predictedNumber").empty().append(data);
-            });
-        };
-        </script>
+    <div id="buttonDiv">
+      <button id="predictBtn" onclick="predict()">Predict</button>
+      <button id="restartBtn" onclick="erase()">Restart</button>
+    </div>
   </body>
+
+   <!-- For jquery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  
+  <!-- The javascript for the webpage -->
+  <script> 
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+    
+    var painting = document.getElementById('canvasDiv');
+    var paint_style = getComputedStyle(painting);
+    canvas.width = parseInt(paint_style.getPropertyValue('width'));
+    canvas.height = parseInt(paint_style.getPropertyValue('height'));
+    
+    var mouse = { x: 0, y: 0 };
+    
+    canvas.addEventListener('mousemove', function (e) {
+        mouse.x = e.pageX - this.offsetLeft;
+        mouse.y = e.pageY - this.offsetTop;
+    }, false);
+
+    // specifying how you want the image to be drawn eg "round" will have no edges
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    
+    ctx.strokeStyle = '#FFFFFF';
+    
+    // This function is for when the mouse is clicked
+    canvas.addEventListener('mousedown', function (e) {
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+        canvas.addEventListener('mousemove', onPaint, false);
+    }, false);
+    
+    // Function for whne the mouse is unclicked
+    canvas.addEventListener('mouseup', function () {
+        canvas.removeEventListener('mousemove', onPaint, false);
+    }, false);
+
+
+    var onPaint = function () {
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+    };
+    
+    // Function to clear the screen
+    function erase() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        $('#predictedNumber').text('');
+    }
+  
+   // Function to save the drawn image
+    function predict() {
+      var canvas = document.getElementById("myCanvas");
+      var dataURL = canvas.toDataURL();
+      console.log(dataURL);
+    
+      // Using Ajax post method for the image
+      $.ajax({
+          type: 'POST',
+          url: '/image',
+          data: {
+            imgBase64: dataURL
+          }
+      }).done(function (data) {
+        // Outputting the data from the image
+        console.log(data);
+        $("#predictedNumber").empty().append(data);
+      });
+    };
+  </script>
 </html>
